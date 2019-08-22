@@ -1,0 +1,52 @@
+vrrp_sync_group VG1 {
+    group {
+        VI_1
+        VI_2
+        VI_3
+    }
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 171
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type AH
+        auth_pass k@l!ve1
+    }
+    virtual_ipaddress {
+        172.20.26.171
+    }
+}
+
+vrrp_instance VI_2 {
+    state BACKUP
+    interface eth0
+    virtual_router_id 172
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type AH
+        auth_pass k@l!ve1
+    }
+    virtual_ipaddress {
+        172.20.26.172
+    }
+}
+
+vrrp_instance VI_3 {
+    state BACKUP
+    interface eth0
+    virtual_router_id 173
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type AH
+        auth_pass k@l!ve1
+    }
+    virtual_ipaddress {
+        172.20.26.173
+    }
+}
