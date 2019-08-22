@@ -8,8 +8,8 @@ vrrp_sync_group VG1 {
 
 vrrp_instance VI_1 {
     state MASTER
-    interface eth0
-    virtual_router_id 171
+    interface enp0s3
+    virtual_router_id 100
     priority 150
     advert_int 1
     authentication {
@@ -17,14 +17,14 @@ vrrp_instance VI_1 {
         auth_pass k@l!ve1
     }
     virtual_ipaddress {
-        172.20.26.171
+        10.0.10.100/24
     }
 }
 
 vrrp_instance VI_2 {
     state BACKUP
-    interface eth0
-    virtual_router_id 172
+    interface enp0s3
+    virtual_router_id 101
     priority 100
     advert_int 1
     authentication {
@@ -32,14 +32,14 @@ vrrp_instance VI_2 {
         auth_pass k@l!ve1
     }
     virtual_ipaddress {
-        172.20.26.172
+        10.0.10.101/24
     }
 }
 
 vrrp_instance VI_3 {
     state BACKUP
-    interface eth0
-    virtual_router_id 173
+    interface enp0s3
+    virtual_router_id 102
     priority 100
     advert_int 1
     authentication {
@@ -47,50 +47,35 @@ vrrp_instance VI_3 {
         auth_pass k@l!ve1
     }
     virtual_ipaddress {
-        172.20.26.173
+        10.0.10.102/24
     }
 }
 
-virtual_server 172.20.26.181 80 {
+virtual_server 10.0.10.100 22 {
     delay_loop 30
     lb_algo wrr
-    lb_kind DR
-    persistence_timeout 50
+    lb_kind NAT
+    persistence_timeout 5
     protocol TCP
 
-    real_server 172.20.26.182 80 {
+    real_server 10.0.10.10 22 {
         weight 1
-        HTTP_GET {
-            url {
-                path /
-            }
+        TCP_CHECK {
             connect_timeout 3
-            retry 3
-            delay_before_retry 2
         }
     }
 
-    real_server 172.20.26.183 80 {
+    real_server 10.0.10.11 22 {
         weight 1
-        HTTP_GET {
-            url {
-                path /
-            }
+        TCP_CHECK {
             connect_timeout 3
-            retry 3
-            delay_before_retry 2
         }
     }
 
-    real_server 172.20.26.184 80 {
+    real_server 10.0.10.12 22 {
         weight 1
-        HTTP_GET {
-            url {
-                path /
-            }
+        TCP_CHECK {
             connect_timeout 3
-            retry 3
-            delay_before_retry 2
         }
     }    
 }
